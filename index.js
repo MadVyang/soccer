@@ -103,6 +103,7 @@ let clickHandler = (e) => {
 	if (!isPlaying) {
 		isPlaying = true;
 		ball.x = 0; ball.y = 500; ball.speed.x = 0; ball.speed.y = 0;
+		score = 0;
 	}
 
 	let clickX = e.offsetX - renderer.origin.x;
