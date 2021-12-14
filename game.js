@@ -28,7 +28,7 @@ class Ball {
 			this.speed.x *= -1;
 		}
 
-		this.speed.y -= 1.4;
+		this.speed.y -= 1.25;
 		this.speed.x *= 0.98;
 
 
@@ -41,7 +41,7 @@ class Ball {
 		this.speed.x *= 0.5;
 		this.speed.y *= 0.5;
 
-		this.speed.x += x * 25;
-		this.speed.y += y * 45;
+		this.speed.x += x * 20;
+		this.speed.y += y * 40;
 	}
 }

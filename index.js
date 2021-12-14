@@ -17,7 +17,10 @@ window.onload = () => {
 	renderer.showText();
 
 	window.addEventListener('click', clickHandler);
-	setInterval(timerHandler, 20);
+	window.addEventListener('touchstart', touchHandler);
+	window.addEventListener('touchend', touchHandler);
+	window.addEventListener('touchmove', touchHandler);
+	setInterval(timerHandler, 15);
 }
 
 let timerHandler = (e) => {
@@ -26,23 +29,42 @@ let timerHandler = (e) => {
 	if (!isPlaying)
 		renderer.showText();
 }
+
 let clickHandler = (e) => {
+	tryStartGame();
+	tryHitBall(e.offsetX, e.offsetY);
+}
+
+let touchHandler = (e) => {
+	tryStartGame();
+	for (let touch of e.touches) {
+		if (tryHitBall(touch.pageX, touch.pageY)) break;
+	}
+}
+
+let tryStartGame = () => {
 	if (!isPlaying) {
 		isPlaying = true;
 		score = 0;
 		ball.init();
 	}
+}
 
-	let clickX = e.offsetX - renderer.origin.x;
-	let clickY = -e.offsetY + renderer.origin.y;
-	if (ball.speed.y < 0) {
-		if ((clickX - ball.x) * (clickX - ball.x) + (clickY - ball.y) * (clickY - ball.y)
-			< (ball.size * 1.2) * (ball.size * 1.2)) {
-			let rot = Math.atan2(ball.y - clickY, ball.x - clickX);
-			ball.hit(Math.cos(rot), 1);
+let tryHitBall = (x, y) => {
+	let hitX = x - renderer.origin.x;
+	let hitY = -y + renderer.origin.y;
 
-			score += 1;
-			if (maxScore < score) maxScore = score;
-		}
+	if (ball.speed.y < 0 &&
+		(hitX - ball.x) * (hitX - ball.x) +
+		(hitY - ball.y) * (hitY - ball.y)
+		< (ball.size) * (ball.size)
+	) {
+		let rot = Math.atan2(ball.y - hitY, ball.x - hitX);
+		ball.hit(Math.cos(rot), 1);
+		score += 1;
+		if (maxScore < score) maxScore = score;
+
+		return true;
 	}
+	return false;
 }
