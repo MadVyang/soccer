@@ -12,6 +12,7 @@ window.onload = () => {
 	canvas.height = window.innerHeight;
 
 	ball = new Ball(100, canvas);
+	ball.y = -ball.size;
 	renderer = new Renderer(ball, canvas);
 	renderer.showText();
 
@@ -28,17 +29,20 @@ let timerHandler = (e) => {
 let clickHandler = (e) => {
 	if (!isPlaying) {
 		isPlaying = true;
-		ball.x = 0; ball.y = 500; ball.speed.x = 0; ball.speed.y = 0;
 		score = 0;
+		ball.init();
 	}
 
 	let clickX = e.offsetX - renderer.origin.x;
 	let clickY = -e.offsetY + renderer.origin.y;
 	if (ball.speed.y < 0) {
 		if ((clickX - ball.x) * (clickX - ball.x) + (clickY - ball.y) * (clickY - ball.y)
-			< (ball.size * 1.2) * (ball.size * 2)) {
+			< (ball.size * 1.2) * (ball.size * 1.2)) {
 			let rot = Math.atan2(ball.y - clickY, ball.x - clickX);
 			ball.hit(Math.cos(rot), 1);
+
+			score += 1;
+			if (maxScore < score) maxScore = score;
 		}
 	}
 }

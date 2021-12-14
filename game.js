@@ -1,14 +1,16 @@
 class Ball {
 	constructor(size, canvas) {
 		this.size = size;
-		this.bound = canvas.width;
-
-		this.x = 0;
-		this.y = -100;
-
+		this.bound = { x: canvas.width, y: canvas.height };
 		this.image = new Image();
 		this.image.src = './img.png';
 
+		this.init();
+	}
+
+	init() {
+		this.x = 0;
+		this.y = this.bound.y;
 		this.speed = { x: 0, y: 0 };
 		this.rot = 0;
 	}
@@ -17,16 +19,16 @@ class Ball {
 		this.rot += this.speed.x * 0.01;
 		this.x += this.speed.x;
 		this.y += this.speed.y;
-		if (this.x < -this.bound / 2 + this.size / 2) {
-			this.x = -this.bound / 2 + this.size / 2;
+		if (this.x < -this.bound.x / 2 + this.size / 2) {
+			this.x = -this.bound.x / 2 + this.size / 2;
 			this.speed.x *= -1;
 		}
-		if (this.x > this.bound / 2 - this.size / 2) {
-			this.x = this.bound / 2 - this.size / 2;
+		if (this.x > this.bound.x / 2 - this.size / 2) {
+			this.x = this.bound.x / 2 - this.size / 2;
 			this.speed.x *= -1;
 		}
 
-		this.speed.y -= 1.6;
+		this.speed.y -= 1.4;
 		this.speed.x *= 0.98;
 
 
@@ -36,10 +38,10 @@ class Ball {
 	}
 
 	hit(x, y) {
-		this.speed.x += x * 25;
-		this.speed.y += y * 55;
+		this.speed.x *= 0.5;
+		this.speed.y *= 0.5;
 
-		score += 1;
-		if (maxScore < score) maxScore = score;
+		this.speed.x += x * 25;
+		this.speed.y += y * 45;
 	}
 }

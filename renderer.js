@@ -12,13 +12,16 @@ class Renderer {
 
 	showText() {
 		this.context.font = '48px serif';
-		this.context.fillText('Click to start', 110, 400);
+		this.context.textAlign = 'center';
+		this.context.fillText('Touch to start', this.canvas.width / 2, this.canvas.height / 2);
 	}
 
 	showScore() {
 		this.context.font = '20px serif';
+		this.context.textAlign = 'left';
 		this.context.fillText('Max: ' + Math.round(maxScore), 10, 30);
-		this.context.fillText(Math.round(score), 450, 30);
+		this.context.textAlign = 'right';
+		this.context.fillText(Math.round(score), this.canvas.width - 10, 30);
 	}
 
 	render() {
